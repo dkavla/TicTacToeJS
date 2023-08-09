@@ -1,0 +1,100 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    background-color: rgb(176, 152, 121);
+    font-size: 100px;
+    text-align: center;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.container {
+    background-color: sandybrown;
+    border: 2px solid black;
+}
+
+.btn-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-intro {
+    background-color: antiquewhite;
+    border-radius: 20px;
+    margin-top: 40px;
+    margin-bottom: 10px;
+    padding: 1em;
+}
+
+.player1,
+.player2,
+.replay {
+    background-color:rgb(84, 161, 161);
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: 30px;
+    font-size: large;
+}
+
+.board-container {
+    border: 5px solid black;
+}
+
+.board {
+    display: flex;
+    justify-content: center;
+    display: grid;
+    grid-template: repeat(3, 150px) / repeat(3, 150px);
+    background-color: burlywood;
+    border: 2px solid red;
+}
+
+/* styling for the individual boxes on the board */
+.slot {
+    /* grid-template-columns: 20px 20px 20px;
+    grid-template-rows: 20px 20px 20px; */
+    background-color: rgb(27, 172, 197);
+    padding-top: 20px;
+    grid-template-columns: 100px 100px 100px;
+    grid-template-rows: 100px;
+    color: rgb(221, 238, 238);
+    font-size: 100px;
+    text-align: center;
+}
+
+#one,
+#two,
+#three,
+#four,
+#five,
+#six,
+#seven,
+#eight, 
+#nine {
+    cursor: pointer;
+}
+
+#one,
+#two,
+#four,
+#five {
+    border-right: 5px solid black;
+    border-bottom: 5px solid black;
+}
+
+#three,
+#six {
+    border-bottom: 5px solid black;
+}
+
+#seven,
+#eight {
+    border-right: 5px solid black;
+}
