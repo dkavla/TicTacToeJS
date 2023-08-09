@@ -27,5 +27,12 @@ let Game = (() => {
     return { GameBoard };
 })();
 
+const Player = (marker) => {
+    this.won = false;
+    const setWinner = () => this.won = true;
+    const getMarker = () => this.marker;
+    return { setWinner, getMarker };
+}
+
 console.log(Game.GameBoard.getOpenSlots());
 
