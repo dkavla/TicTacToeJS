@@ -39,46 +39,44 @@ let Game = (() => {
     // Called after each move to check if there is a winner
     let checkWinner = () => {
 
-        if (_board[0] === _board[1] && _board[0] === _board[2] && 
-            (_board[0] !== ' ' && _board[1] !== ' ' && _board[2] !== ' ')) {
+        if ( (_board[0] === 'X' && _board[1] === 'X' && _board[2] === 'X') || (_board[0] === 'O' && _board[1] === 'O' && _board[2] === 'O') ) {
 
                 _winner = _board[0];
                 return true;
 
-        } else if (_board[0] === _board[4] && _board[0] === _board[8] &&
-            (_board[0] !== ' ' && _board[4] !== ' ' && _board[8] !== ' ')) {
+        } else if ( (_board[0] === 'X' && _board[3] === 'X' && _board[6] === 'X') || (_board[0] === 'O' && _board[3] === 'O' && _board[6] === 'O') ) {
 
                 _winner = _board[0];
                 return true;
 
-        } else if (_board[1] === _board[4] && _board[1] === _board[7] &&
-            (_board[1] !== ' ' && _board[4] !== ' ' && _board[7] !== ' ')) {
+        } else if ( (_board[0] === 'X' && _board[4] === 'X' && _board[8] === 'X') || (_board[0] === 'O' && _board[4] === 'O' && _board[8] === 'O') ) {
 
             _winner = _board[0];
             return true;
 
-        } else if (_board[2] === _board[5] && _board[2] === _board[8] &&
-            (_board[2] !== ' ' && _board[5] !== ' ' && _board[8] !== ' ')) {
+        } else if ( (_board[1] === 'X' && _board[4] === 'X' && _board[7] === 'X') || (_board[1] === 'O' && _board[4] === 'O' && _board[7] === 'O') ) {
 
-            _winner = _board[0];
+            _winner = _board[1];
             return true;
 
-        } else if (_board[2] === _board[4] && _board[2] === _board[6] &&
-            (_board[2] !== ' ' && _board[4] !== ' ' && _board[6] !== ' ')) {
+        } else if ( (_board[2] === 'X' && _board[5] === 'X' && _board[8] === 'X') || (_board[2] === 'O' && _board[5] === 'O' && _board[8] === 'O') ) {
 
-            _winner = _board[0];
+            _winner = _board[2];
             return true;
 
-        } else if (_board[3] === _board[4] && _board[3] === _board[5] &&
-            (_board[3] !== ' ' && _board[4] !== ' ' && _board[5] !== ' ')) {
+        } else if ( (_board[2] === 'X' && _board[4] === 'X' && _board[6] === 'X') || (_board[2] === 'O' && _board[4] === 'O' && _board[6] === 'O') ) {
 
-            _winner = _board[0];
+            _winner = _board[2];
             return true;
 
-        } else if (_board[6] === _board[7] && _board[6] === _board[8] &&
-            (_board[6] !== ' ' && _board[7] !== ' ' && _board[8] !== ' ')) {
+        } else if ( (_board[3] === 'X' && _board[4] === 'X' && _board[5] === 'X') || (_board[3] === 'O' && _board[4] === 'O' && _board[5] === 'O') ) {
 
-            _winner = _board[0];
+            _winner = _board[3];
+            return true;
+
+        } else if ( (_board[6] === 'X' && _board[7] === 'X' && _board[8] === 'X') || (_board[6] === 'O' && _board[7] === 'O' && _board[8] === 'O') ) {
+
+            _winner = _board[6];
             return true;
 
         } else {
@@ -152,6 +150,7 @@ resetBtn.addEventListener("click", () => {
     });
     if (!gameActive) {
         displayWinner.remove();
+        gameActive = true;
     }
 });
 
