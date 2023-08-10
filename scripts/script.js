@@ -1,16 +1,20 @@
 // moduel that holds the GameBoard object
 let Game = (() => {
-    let _openSlots = 9
+    let _openSlots = 9;
+    let _winner = '';
+    let _board = [
+        ' ', ' ', ' ',
+        ' ', ' ', ' ',
+        ' ', ' ', ' '
+    ];
 
     let GameBoard = {
-        board: [
-            ' ', ' ', ' ',
-            ' ', ' ', ' ',
-            ' ', ' ', ' '
-        ],
+        getBoard: function() {
+            return _board;
+        },
         fillSlot: function(marker, slot) {
-            if (this.board[slot] == ' ') {
-                this.board[slot] = marker;
+            if (_board[slot] == ' ') {
+                _board[slot] = marker;
                 _openSlots--;
             } else {
                 console.log('Slot is filled already. Pick another')
@@ -20,7 +24,7 @@ let Game = (() => {
             return _openSlots;
         },
         resetGame: function() {
-            this.board = [
+            _board = [
                 ' ', ' ', ' ',
                 ' ', ' ', ' ',
                 ' ', ' ', ' '
@@ -34,56 +38,47 @@ let Game = (() => {
     
     // Called after each move to check if there is a winner
     let checkWinner = () => {
-        const statusContainer = document.querySelector('.status-container');
-        const displayWinner = document.createElement('div')
-        displayWinner.setAttribute('class', 'winner');
 
-        if (this.board[0] === this.board[1] && this.board[0] === this.board[2]) {
+        if (_board[0] === _board[1] && _board[0] === _board[2] && 
+            (_board[0] !== ' ' && _board[1] !== ' ' && _board[2] !== ' ')) {
 
-                displayWinner.innerText = `Winner ${this.board[0]}`;
-                statusContainer.appendChild(displayWinner);
+                _winner = _board[0];
                 return true;
 
-        } else if (this.board[0] === this.board[3] && this.board[0] === this.board[6]) {
+        } else if (_board[0] === _board[4] && _board[0] === _board[8] &&
+            (_board[0] !== ' ' && _board[4] !== ' ' && _board[8] !== ' ')) {
 
-                displayWinner.innerText = `Winner ${this.board[0]}`;
-                statusContainer.appendChild(displayWinner);
+                _winner = _board[0];
                 return true;
 
-        } else if (this.board[0] === this.board[4] && this.board[0] === this.board[8]) {
+        } else if (_board[1] === _board[4] && _board[1] === _board[7] &&
+            (_board[1] !== ' ' && _board[4] !== ' ' && _board[7] !== ' ')) {
 
-                displayWinner.innerText = `Winner ${this.board[0]}`;
-                statusContainer.appendChild(displayWinner);
-                return true;
-
-        } else if (this.board[1] === this.board[4] && this.board[1] === this.board[7]) {
-
-            displayWinner.innerText = `Winner ${this.board[1]}`;
-            statusContainer.appendChild(displayWinner);
+            _winner = _board[0];
             return true;
 
-        } else if (this.board[2] === this.board[5] && this.board[2] === this.board[8]) {
+        } else if (_board[2] === _board[5] && _board[2] === _board[8] &&
+            (_board[2] !== ' ' && _board[5] !== ' ' && _board[8] !== ' ')) {
 
-            displayWinner.innerText = `Winner ${this.board[2]}`;
-            statusContainer.appendChild(displayWinner);
+            _winner = _board[0];
             return true;
 
-        } else if (this.board[2] === this.board[4] && this.board[2] === this.board[6]) {
+        } else if (_board[2] === _board[4] && _board[2] === _board[6] &&
+            (_board[2] !== ' ' && _board[4] !== ' ' && _board[6] !== ' ')) {
 
-            displayWinner.innerText = `Winner ${this.board[2]}`;
-            statusContainer.appendChild(displayWinner);
+            _winner = _board[0];
             return true;
 
-        } else if (this.board[3] === this.board[4] && this.board[3] === this.board[5]) {
+        } else if (_board[3] === _board[4] && _board[3] === _board[5] &&
+            (_board[3] !== ' ' && _board[4] !== ' ' && _board[5] !== ' ')) {
 
-            displayWinner.innerText = `Winner ${this.board[3]}`;
-            statusContainer.appendChild(displayWinner);
+            _winner = _board[0];
             return true;
 
-        } else if (this.board[6] === this.board[7] && this.board[6] === this.board[8]) {
+        } else if (_board[6] === _board[7] && _board[6] === _board[8] &&
+            (_board[6] !== ' ' && _board[7] !== ' ' && _board[8] !== ' ')) {
 
-            displayWinner.innerText = `Winner ${this.board[6]}`;
-            statusContainer.appendChild(displayWinner);
+            _winner = _board[0];
             return true;
 
         } else {
@@ -91,6 +86,12 @@ let Game = (() => {
         }
     }
 
+    // returns the marker of the winner
+    let getWinner = () => {
+        return _winner;
+    }
+
+    // receives the id of a slot and returns the corresponding index position
     let getSlotIndex = (numWord) => {
         if (numWord === "one") {
             return 0;
@@ -113,32 +114,46 @@ let Game = (() => {
         }
     }
 
-    return { GameBoard, checkWinner, getSlotIndex };
+    let isFull = () => {
+        return _openSlots === 0;
+    }
+
+    return { 
+        GameBoard, checkWinner, 
+        getSlotIndex, getWinner, 
+        isFull };
 })();
 
+// factory function for creating Player object
 const Player = (marker) => {
-    this.won = false;
-    const setWinner = () => this.won = true;
     const getMarker = () => this.marker;
-    return { setWinner, getMarker };
+    return { getMarker };
 }
 
 let currentPlayer = 'X'; // track current player
 // Create Player Objects
 let p1 = Player('X');
 let p2 = Player('O');
+let gameActive = true;
 
-// resets the board
-const resetBtn = document.querySelector('.reset');
-const posSlot = document.querySelectorAll('.slot');
+
+const resetBtn = document.querySelector('.reset'); // resets the board
+const posSlot = document.querySelectorAll('.slot'); // select all slots on board
+const statusContainer = document.querySelector('.status-container');
+const displayWinner = document.createElement('div') // winner dispaly
+displayWinner.setAttribute('class', 'winner');
+const turnDisplay = document.querySelector('.turn');
 
 resetBtn.addEventListener("click", () => {
     Game.GameBoard.resetGame
     posSlot.forEach((slot) => {
         slot.innerText = '';
         Game.GameBoard.resetGame();
-    })
-})
+    });
+    if (!gameActive) {
+        displayWinner.remove();
+    }
+});
 
 // fills the slot with the current player's marker when clicked
 // Iterates over all slots to add click event 
@@ -149,10 +164,25 @@ posSlot.forEach((slot) => {
         // calls fillSlot to fill the position in the Gameboard
         // objet's array board
         Game.GameBoard.fillSlot(currentPlayer, Game.getSlotIndex(slot.id));
+        
+        // switch to next player's turn
         if (currentPlayer === 'X') {
             currentPlayer = 'O';
+            turnDisplay.innerText = `Player ${currentPlayer}'s Turn`;
         } else {
             currentPlayer = 'X';
+            turnDisplay.innerText = `Player ${currentPlayer}'s Turn`;
+        }
+
+        if (Game.checkWinner() && gameActive) {
+            gameActive = false;
+            displayWinner.innerText = `Winner is Player ${Game.getWinner()}`;
+            statusContainer.appendChild(displayWinner);
+        } else if (!Game.checkWinner() && Game.isFull()) {
+            displayWinner.innerText = `Its a Draw`;
+            statusContainer.appendChild(displayWinner);
+            gameActive = false;
         }
     });
 });
+
