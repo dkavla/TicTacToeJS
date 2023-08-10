@@ -24,7 +24,56 @@ let Game = (() => {
         }
     };
     
-    return { GameBoard };
+    // Called after each move to check if there is a winner
+    let checkWinner = () => {
+        const statusContainer = document.querySelector('.status-container');
+        const displayWinner = document.createElement('div')
+        displayWinner.setAttribute('class', 'winner');
+
+        if (this.board[0] === this.board[1] && this.board[0] === this.board[2]) {
+
+                displayWinner.innerText = `Winner ${this.board[0]}`;
+                statusContainer.appendChild(displayWinner);
+
+        } else if (this.board[0] === this.board[3] && this.board[0] === this.board[6]) {
+
+                displayWinner.innerText = `Winner ${this.board[0]}`;
+                statusContainer.appendChild(displayWinner);
+
+        } else if (this.board[0] === this.board[4] && this.board[0] === this.board[8]) {
+
+                displayWinner.innerText = `Winner ${this.board[0]}`;
+                statusContainer.appendChild(displayWinner);
+
+        } else if (this.board[1] === this.board[4] && this.board[1] === this.board[7]) {
+
+            displayWinner.innerText = `Winner ${this.board[1]}`;
+            statusContainer.appendChild(displayWinner);
+
+        } else if (this.board[2] === this.board[5] && this.board[2] === this.board[8]) {
+
+            displayWinner.innerText = `Winner ${this.board[2]}`;
+            statusContainer.appendChild(displayWinner);
+
+        } else if (this.board[2] === this.board[4] && this.board[2] === this.board[6]) {
+
+            displayWinner.innerText = `Winner ${this.board[2]}`;
+            statusContainer.appendChild(displayWinner);
+
+        } else if (this.board[3] === this.board[4] && this.board[3] === this.board[5]) {
+
+            displayWinner.innerText = `Winner ${this.board[3]}`;
+            statusContainer.appendChild(displayWinner);
+
+        } else if (this.board[6] === this.board[7] && this.board[6] === this.board[8]) {
+
+            displayWinner.innerText = `Winner ${this.board[6]}`;
+            statusContainer.appendChild(displayWinner);
+
+        }
+    }
+
+    return { GameBoard, checkWinner };
 })();
 
 const Player = (marker) => {
@@ -34,5 +83,9 @@ const Player = (marker) => {
     return { setWinner, getMarker };
 }
 
-console.log(Game.GameBoard.getOpenSlots());
+let currentPlayer = 'X'; // track current player
+
+// Create Player Objects
+let p1 = Player('X');
+let p2 = Player('O');
 
