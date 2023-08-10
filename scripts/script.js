@@ -158,30 +158,36 @@ resetBtn.addEventListener("click", () => {
 // Iterates over all slots to add click event 
 posSlot.forEach((slot) => {
     slot.addEventListener("click", () => {
-        slot.innerText = currentPlayer;
 
-        // calls fillSlot to fill the position in the Gameboard
-        // objet's array board
-        Game.GameBoard.fillSlot(currentPlayer, Game.getSlotIndex(slot.id));
+        // check if the game is still going (no winners or not a draw)
+        if (gameActive) {
+            slot.innerText = currentPlayer;
+
+            // calls fillSlot to fill the position in the Gameboard
+            // objet's array board
+            Game.GameBoard.fillSlot(currentPlayer, Game.getSlotIndex(slot.id));
+
+            // switch to next player's turn
+            if (currentPlayer === 'X') {
+                currentPlayer = 'O';
+                turnDisplay.innerText = `Player ${currentPlayer}'s Turn`;
+            } else {
+                currentPlayer = 'X';
+                turnDisplay.innerText = `Player ${currentPlayer}'s Turn`;
+            }
+
+            if (Game.checkWinner() && gameActive) {
+                gameActive = false;
+                displayWinner.innerText = `Winner is Player ${Game.getWinner()}`;
+                statusContainer.appendChild(displayWinner);
+            } else if (!Game.checkWinner() && Game.isFull()) {
+                displayWinner.innerText = `Its a Draw`;
+                statusContainer.appendChild(displayWinner);
+                gameActive = false;
+            }
+        }
         
-        // switch to next player's turn
-        if (currentPlayer === 'X') {
-            currentPlayer = 'O';
-            turnDisplay.innerText = `Player ${currentPlayer}'s Turn`;
-        } else {
-            currentPlayer = 'X';
-            turnDisplay.innerText = `Player ${currentPlayer}'s Turn`;
-        }
-
-        if (Game.checkWinner() && gameActive) {
-            gameActive = false;
-            displayWinner.innerText = `Winner is Player ${Game.getWinner()}`;
-            statusContainer.appendChild(displayWinner);
-        } else if (!Game.checkWinner() && Game.isFull()) {
-            displayWinner.innerText = `Its a Draw`;
-            statusContainer.appendChild(displayWinner);
-            gameActive = false;
-        }
+        
     });
 });
 
