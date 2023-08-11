@@ -178,7 +178,7 @@ posSlot.forEach((slot) => {
 
             if (Game.checkWinner() && gameActive) {
                 gameActive = false;
-                displayWinner.innerText = `Winner is Player ${Game.getWinner()}`;
+                displayWinner.innerText = `Player ${Game.getWinner()} Wins`;
                 statusContainer.appendChild(displayWinner);
             } else if (!Game.checkWinner() && Game.isFull()) {
                 displayWinner.innerText = `Its a Draw`;
