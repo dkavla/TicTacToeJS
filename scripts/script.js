@@ -128,66 +128,68 @@ const Player = (marker) => {
     return { getMarker };
 }
 
-let currentPlayer = 'X'; // track current player
-// Create Player Objects
-let p1 = Player('X');
-let p2 = Player('O');
-let gameActive = true;
+let displatController = (() => {
+    let currentPlayer = 'X'; // track current player
+    // Create Player Objects
+    let p1 = Player('X');
+    let p2 = Player('O');
+    let gameActive = true;
 
 
-const resetBtn = document.querySelector('.reset'); // resets the board
-const posSlot = document.querySelectorAll('.slot'); // select all slots on board
-const statusContainer = document.querySelector('.status-container');
-const displayWinner = document.createElement('div') // winner dispaly
-displayWinner.setAttribute('class', 'winner');
-const turnDisplay = document.querySelector('.turn');
+    const resetBtn = document.querySelector('.reset'); // resets the board
+    const posSlot = document.querySelectorAll('.slot'); // select all slots on board
+    const statusContainer = document.querySelector('.status-container');
+    const displayWinner = document.createElement('div') // winner dispaly
+    displayWinner.setAttribute('class', 'winner');
+    const turnDisplay = document.querySelector('.turn');
 
-resetBtn.addEventListener("click", () => {
-    Game.GameBoard.resetGame
-    posSlot.forEach((slot) => {
-        slot.innerText = '';
-        Game.GameBoard.resetGame();
-    });
-    if (!gameActive) {
-        displayWinner.remove();
-        gameActive = true;
-    }
-});
-
-// fills the slot with the current player's marker when clicked
-// Iterates over all slots to add click event 
-posSlot.forEach((slot) => {
-    slot.addEventListener("click", () => {
-
-        // check if the game is still going (no winners or not a draw)
-        if (gameActive) {
-            slot.innerText = currentPlayer;
-
-            // calls fillSlot to fill the position in the Gameboard
-            // objet's array board
-            Game.GameBoard.fillSlot(currentPlayer, Game.getSlotIndex(slot.id));
-
-            // switch to next player's turn
-            if (currentPlayer === 'X') {
-                currentPlayer = 'O';
-                turnDisplay.innerText = `Player ${currentPlayer}'s Turn`;
-            } else {
-                currentPlayer = 'X';
-                turnDisplay.innerText = `Player ${currentPlayer}'s Turn`;
-            }
-
-            if (Game.checkWinner() && gameActive) {
-                gameActive = false;
-                displayWinner.innerText = `Player ${Game.getWinner()} Wins`;
-                statusContainer.appendChild(displayWinner);
-            } else if (!Game.checkWinner() && Game.isFull()) {
-                displayWinner.innerText = `Its a Draw`;
-                statusContainer.appendChild(displayWinner);
-                gameActive = false;
-            }
+    resetBtn.addEventListener("click", () => {
+        Game.GameBoard.resetGame
+        posSlot.forEach((slot) => {
+            slot.innerText = '';
+            Game.GameBoard.resetGame();
+        });
+        if (!gameActive) {
+            displayWinner.remove();
+            gameActive = true;
         }
-        
-        
     });
-});
+
+    // fills the slot with the current player's marker when clicked
+    // Iterates over all slots to add click event 
+    posSlot.forEach((slot) => {
+        slot.addEventListener("click", () => {
+
+            // check if the game is still going (no winners or not a draw)
+            if (gameActive) {
+                slot.innerText = currentPlayer;
+
+                // calls fillSlot to fill the position in the Gameboard
+                // objet's array board
+                Game.GameBoard.fillSlot(currentPlayer, Game.getSlotIndex(slot.id));
+
+                // switch to next player's turn
+                if (currentPlayer === 'X') {
+                    currentPlayer = 'O';
+                    turnDisplay.innerText = `Player ${currentPlayer}'s Turn`;
+                } else {
+                    currentPlayer = 'X';
+                    turnDisplay.innerText = `Player ${currentPlayer}'s Turn`;
+                }
+
+                if (Game.checkWinner() && gameActive) {
+                    gameActive = false;
+                    displayWinner.innerText = `Player ${Game.getWinner()} Wins`;
+                    statusContainer.appendChild(displayWinner);
+                } else if (!Game.checkWinner() && Game.isFull()) {
+                    displayWinner.innerText = `Its a Draw`;
+                    statusContainer.appendChild(displayWinner);
+                    gameActive = false;
+                }
+            }
+            
+            
+        });
+    });
+})();
 
